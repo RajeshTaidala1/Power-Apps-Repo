@@ -2,6 +2,10 @@ name: export-and-branch-solution
 # Export solution from DEV environment
 #  unpack it and prepare, commit and push a git branch with the changes
 on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
   workflow_dispatch:
     inputs:
       # Change this value
