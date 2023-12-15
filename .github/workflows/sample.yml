@@ -1,0 +1,48 @@
+name: Deploy Power Apps to Development
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+
+jobs:
+    build:
+  
+      runs-on: windows-latest   # alternate runner OS is: ubuntu-latest
+      environment: dev
+  
+      steps:
+      - name: Install Power Platform Tools
+        uses: microsoft/powerplatform-actions/actions-install@v1
+  
+      - name: Export Solution
+        uses: microsoft/powerplatform-actions/export-solution@v1
+        with:
+          environment-url: ${{secrets.ENVIRONMENT_URL}}
+          user-name: '20HP1A0212@stu.aliet.ac.in'
+          password-secret: ${{ secrets.pwd}}
+          solution-name: sample-demo
+          solution-output-file: 'sample-demo.zip'
+          working-directory: 'solutions'
+  
+      - name: Unpack Solution
+        uses: microsoft/powerplatform-actions/unpack-solution@v1
+        with:
+          solution-file: 'solutions/sample-demo.zip'
+          solution-folder: 'solutions/solutions1/sample-demo'
+          solution-type: 'Unmanaged'
+          overwrite-files: true
+  
+      - name: Publish Solution
+        uses: microsoft/powerplatform-actions/publish-solution@v1
+        with:
+          environment-url: ${{secrets.ENVIRONMENT_URL}}
+          user-name: '20HP1A0212@stu.aliet.ac.in'
+          password-secret: ${{ secrets.pwd}}
+  
+      - name: Prepare solution changes for check-in into source control
+        uses: microsoft/powerplatform-actions/branch-solution@v1
+        with:
+          solution-folder: 'solutions/solutions/sample-demo'
+          solution-target-folder: 'src/solutions/solutions/sample-demo'
+          token: ${{ secrets.REPO_TOKEN }}
