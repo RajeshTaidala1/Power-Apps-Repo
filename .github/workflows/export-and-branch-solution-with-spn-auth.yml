@@ -46,7 +46,8 @@ jobs:
       with:
         lfs: true
 
-    - name: microsoft/powerplatform-actions/who-am-i@v0
+    - name: WHO AM I?
+      uses: microsoft/powerplatform-actions/who-am-i@v0
       with:
        cloud: Public
       env:
