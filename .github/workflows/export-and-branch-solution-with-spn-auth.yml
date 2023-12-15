@@ -53,7 +53,7 @@ jobs:
       env:
         ENVIRONMENT_URL: org8a7afae3.crm8.dynamics.com
         user-name: '20HP1A0212@stu.aliet.ac.in'
-        pwd: ${{secrets.pwd}}
+        pwd: ${{env.pwd}}
       
         RUNNER_DEBUG: 1
 
